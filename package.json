@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "run-p start:ng gql:codegen:watch",
+    "start:ng": "ng serve",
     "open": "ng serve --open",
     "build": "ng build",
     "build:prod": "ng build --prod --build-optimizer --aot --optimization --vendor-chunk",
     "test": "ng test",
-    "test:single": "ng test --code-coverage --watch=false",
+    "test:single": "ng test --watch=false",
     "test:ci": "jest --runInBand",
     "test:coverage": "jest --coverage",
     "lint": "ng lint",
@@ -19,7 +20,10 @@
     "clean": "rimraf node_modules",
     "clean:all": "rimraf node_modules dist dll && npm cache clean --force",
     "clean:dist": "rimraf dist",
-    "reinstall": "yarn clean:all -- && rimraf package-lock.json && yarn"
+    "reinstall": "yarn clean:all -- && rimraf package-lock.json && yarn",
+    "gql:update-schema": "graphql get-schema -e default",
+    "gql:codegen": "graphql-codegen --config codegen.yml",
+    "gql:codegen:watch": "graphql-codegen --watch"
   },
   "private": true,
   "dependencies": {
@@ -47,14 +51,14 @@
     "@angular/cli": "~8.3.17",
     "@angular/compiler-cli": "~8.2.13",
     "@angular/language-service": "~8.2.13",
-    "@types/dotenv": "^8.2.0",
+    "@graphql-codegen/cli": "^1.8.3",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "commitizen": "^4.0.3",
     "cz-customizable": "^6.2.0",
-    "dotenv": "^8.2.0",
+    "graphql-cli": "^3.0.14",
     "husky": "^3.0.9",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -69,12 +73,10 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
-  },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
+    "typescript": "~3.5.3",
+    "@graphql-codegen/typescript": "1.8.3",
+    "@graphql-codegen/typescript-operations": "1.8.3",
+    "@graphql-codegen/typescript-apollo-angular": "1.8.3"
   },
   "config": {
     "commitizen": {
