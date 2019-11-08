@@ -1,5 +1,7 @@
 # Plastikaweb2020Cms
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
 
 ## Development server

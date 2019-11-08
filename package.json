@@ -4,10 +4,22 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "open": "ng serve --open",
     "build": "ng build",
+    "build:prod": "ng build --prod --build-optimizer --aot --optimization --vendor-chunk",
     "test": "ng test",
+    "test:single": "ng test --code-coverage --watch=false",
+    "test:ci": "jest --runInBand",
+    "test:coverage": "jest --coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint:type": "ng lint --type-check",
+    "lint:fix": "ng lint --fix",
+    "stylish": "ng lint --format stylish",
+    "e2e": "ng e2e",
+    "clean": "rimraf node_modules",
+    "clean:all": "rimraf node_modules dist dll && npm cache clean --force",
+    "clean:dist": "rimraf dist",
+    "reinstall": "yarn clean:all -- && rimraf package-lock.json && yarn"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +37,7 @@
     "apollo-client": "^2.6.4",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "rimraf": "^3.0.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
@@ -39,7 +52,10 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "commitizen": "^4.0.3",
+    "cz-customizable": "^6.2.0",
     "dotenv": "^8.2.0",
+    "husky": "^3.0.9",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -47,6 +63,9 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "markdownlint": "^0.17.2",
+    "markdownlint-cli": "^0.19.0",
+    "npm-run-all": "^4.1.5",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
@@ -56,5 +75,17 @@
     "fs": false,
     "path": false,
     "os": false
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint",
+      "pre-push": "run-s test:single build:prod",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
