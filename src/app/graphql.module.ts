@@ -1,24 +1,25 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { Apollo, ApolloModule } from 'apollo-angular';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import * as dotenv from 'dotenv';
+import { environment } from 'src/environments/environment.prod';
 
-dotenv.config();
+export function createApollo(httpLink: HttpLink) {
+  return {
+    link: httpLink.create({ uri: environment.apiUrl }),
+    cache: new InMemoryCache(),
+  };
+}
 
 @NgModule({
-  exports: [HttpClientModule, ApolloModule, HttpLinkModule],
+  exports: [ApolloModule, HttpLinkModule],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: createApollo,
+      deps: [HttpLink],
+    },
+  ],
 })
-export class GraphQLModule {
-  constructor(apollo: Apollo, httpLink: HttpLink) {
-    const uri = process.env.API_URI;
-    const http = httpLink.create({ uri });
-
-    apollo.create({
-      link: http,
-      cache: new InMemoryCache(),
-    });
-  }
-}
+export class GraphQLModule {}
