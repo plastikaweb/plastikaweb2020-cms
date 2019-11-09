@@ -1,8 +1,8 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TechnologiesGQL } from 'src/generated/types.graphql-gen';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +10,12 @@ import { TechnologiesGQL } from 'src/generated/types.graphql-gen';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  technologies$: Observable<string[]>;
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
-  constructor(service: TechnologiesGQL) {
-    this.technologies$ = service
-      .fetch({})
-      .pipe(map(result => result.data.getTechnologies.map(tech => tech.name)));
-  }
+  constructor(private breakpointObserver: BreakpointObserver) {}
 }
