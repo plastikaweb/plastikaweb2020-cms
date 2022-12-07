@@ -54,7 +54,7 @@
     "@angular/cli": "~8.3.17",
     "@angular/compiler-cli": "~8.2.13",
     "@angular/language-service": "~8.2.13",
-    "@graphql-codegen/cli": "^1.8.3",
+    "@graphql-codegen/cli": "^1.21.8",
     "@graphql-codegen/typescript": "1.8.3",
     "@graphql-codegen/typescript-apollo-angular": "1.8.3",
     "@graphql-codegen/typescript-operations": "1.8.3",
